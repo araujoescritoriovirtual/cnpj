@@ -160,6 +160,15 @@
          transition:.2s;animation:pulse 2.4s infinite}
   .float:hover{transform:scale(1.08)}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(176,141,87,.5)}70%{box-shadow:0 0 0 18px rgba(176,141,87,0)}100%{box-shadow:0 0 0 0 rgba(176,141,87,0)}}
+  /* Pop-up de escolha de WhatsApp */
+  .wa-modal{position:fixed;inset:0;background:rgba(13,32,22,.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+  .wa-modal.open{display:flex}
+  .wa-box{background:#fff;border-radius:18px;padding:30px 24px 26px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
+  .wa-box h3{font-weight:700;font-size:21px;color:var(--green-deep);margin:0 0 6px}
+  .wa-box p{color:#5a6b60;font-size:15px;margin:0 0 18px}
+  .wa-box .wa-opt{width:100%;margin-top:12px;font-size:17px}
+  .wa-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:28px;line-height:1;color:#9aa7a0;cursor:pointer}
+  .wa-close:hover{color:var(--green-deep)}
 </style>
 </head>
 <body>
@@ -349,18 +358,51 @@
 
 <a class="float" id="floatwhats" aria-label="WhatsApp"><svg width="32" height="32"><use href="#wa"/></svg></a>
 
+<!-- POP-UP: escolha do WhatsApp -->
+<div class="wa-modal" id="wa-chooser" aria-hidden="true">
+  <div class="wa-box" role="dialog" aria-modal="true" aria-label="Escolha o WhatsApp">
+    <button class="wa-close" id="wa-close" aria-label="Fechar">&times;</button>
+    <h3>Com quem você quer falar?</h3>
+    <p>Escolha um número para abrir o WhatsApp</p>
+    <a class="btn btn-cta wa-opt" id="wa-opt1"><svg width="22" height="22"><use href="#wa"/></svg>(79) 99988-1857</a>
+    <a class="btn btn-green wa-opt" id="wa-opt2"><svg width="22" height="22"><use href="#wa"/></svg>(79) 99800-1251</a>
+  </div>
+</div>
+
 <script>
-  var phone = "5579999881857"; // +55 (79) 99988-1857
+  var phone1 = "5579999881857"; // +55 (79) 99988-1857
   var phone2 = "5579998001251"; // +55 (79) 99800-1251
   var msg = encodeURIComponent("Olá! Vim pelo site e quero saber sobre o endereço fiscal / abertura de empresa na Araújo Escritório Virtual.");
-  var link = "https://wa.me/" + phone + "?text=" + msg;
-  var link2 = "https://wa.me/" + phone2 + "?text=" + msg;
-  ["navwhats","herowhats","pricewhats","pricewhats2","contawhats","ctawhats","floatwhats","footwhats"].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el){el.setAttribute("href",link);el.setAttribute("target","_blank");el.setAttribute("rel","noopener");}
+  function waLink(p){return "https://wa.me/" + p + "?text=" + msg;}
+
+  // Rodapé: cada número abre direto o seu WhatsApp
+  [["footwhats",phone1],["footwhats2",phone2]].forEach(function(pair){
+    var el=document.getElementById(pair[0]);
+    if(el){el.setAttribute("href",waLink(pair[1]));el.setAttribute("target","_blank");el.setAttribute("rel","noopener");}
   });
-  var el2=document.getElementById("footwhats2");
-  if(el2){el2.setAttribute("href",link2);el2.setAttribute("target","_blank");el2.setAttribute("rel","noopener");}
+
+  // Pop-up de escolha
+  var chooser=document.getElementById("wa-chooser");
+  function openChooser(){chooser.classList.add("open");}
+  function closeChooser(){chooser.classList.remove("open");}
+
+  // Todos os botões de CTA abrem o pop-up
+  ["navwhats","herowhats","pricewhats","pricewhats2","contawhats","ctawhats","floatwhats"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.style.cursor="pointer";el.addEventListener("click",function(e){e.preventDefault();openChooser();});}
+  });
+
+  // Opções do pop-up
+  [["wa-opt1",phone1],["wa-opt2",phone2]].forEach(function(pair){
+    var el=document.getElementById(pair[0]);
+    el.setAttribute("href",waLink(pair[1]));el.setAttribute("target","_blank");el.setAttribute("rel","noopener");
+    el.addEventListener("click",closeChooser);
+  });
+
+  // Fechar: X, clique fora ou Esc
+  document.getElementById("wa-close").addEventListener("click",closeChooser);
+  chooser.addEventListener("click",function(e){if(e.target===chooser)closeChooser();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeChooser();});
 </script>
 </body>
 </html>
