@@ -166,7 +166,9 @@
   .wa-box{background:#fff;border-radius:18px;padding:30px 24px 26px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
   .wa-box h3{font-weight:700;font-size:21px;color:var(--green-deep);margin:0 0 6px}
   .wa-box p{color:#5a6b60;font-size:15px;margin:0 0 18px}
-  .wa-box .wa-opt{width:100%;margin-top:12px;font-size:17px}
+  .wa-box .wa-opt{width:100%;margin-top:12px;font-size:17px;padding-top:12px;padding-bottom:12px}
+  .wa-opt .nm{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+  .wa-opt .nm small{font-weight:600;font-size:13px;opacity:.82;margin-top:2px}
   .wa-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:28px;line-height:1;color:#9aa7a0;cursor:pointer}
   .wa-close:hover{color:var(--green-deep)}
 </style>
@@ -364,8 +366,8 @@
     <button class="wa-close" id="wa-close" aria-label="Fechar">&times;</button>
     <h3>Com quem você quer falar?</h3>
     <p>Escolha um número para abrir o WhatsApp</p>
-    <a class="btn btn-cta wa-opt" id="wa-opt1"><svg width="22" height="22"><use href="#wa"/></svg>(79) 99988-1857</a>
-    <a class="btn btn-green wa-opt" id="wa-opt2"><svg width="22" height="22"><use href="#wa"/></svg>(79) 99800-1251</a>
+    <a class="btn btn-cta wa-opt" id="wa-opt1"><svg width="22" height="22"><use href="#wa"/></svg><span class="nm">Escritório Araújo<small>(79) 99988-1857</small></span></a>
+    <a class="btn btn-green wa-opt" id="wa-opt2"><svg width="22" height="22"><use href="#wa"/></svg><span class="nm">Falar com Vinícius<small>(79) 99800-1251</small></span></a>
   </div>
 </div>
 
